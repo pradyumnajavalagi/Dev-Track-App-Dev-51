@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "598384793676",
+    "project_id": "myuni-92073",
+    "storage_bucket": "myuni-92073.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598384793676:android:8b99dd02a7051a43e73ce9",
+        "android_client_info": {
+          "package_name": "com.CAP.flash_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6gZEXQ6H8L79ohorpj7SlghUg2hri9co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598384793676:android:ba872cc245917f1fe73ce9",
+        "android_client_info": {
+          "package_name": "com.example.appdev51"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6gZEXQ6H8L79ohorpj7SlghUg2hri9co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
