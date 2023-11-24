@@ -19,7 +19,7 @@ class _MyLoginState extends State<MyLogin> {
           children: [
             Container(
               padding:const EdgeInsets.only(left: 35,top: 100),
-              child: const Text('Welcome Back ' , style: TextStyle(color: Colors.black , fontSize: 39),
+              child: const Text('Welcome Back! ' , style: TextStyle(color: Colors.black , fontSize: 39),
           ),
       ),
             Container(

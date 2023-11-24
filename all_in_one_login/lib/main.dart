@@ -1,6 +1,3 @@
-
-
-
 import 'package:all_in_one_login/login.dart';
 import 'package:all_in_one_login/register.dart';
 import 'package:flutter/material.dart';
