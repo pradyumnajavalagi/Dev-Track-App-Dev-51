@@ -19,7 +19,7 @@ class _MyLoginState extends State<MyLogin> {
           children: [
             Container(
               padding:const EdgeInsets.only(left: 35,top: 100),
-              child: const Text('Welcome Back !' , style: TextStyle(color: Colors.black , fontSize: 39),
+              child: const Text('Welcome Back ' , style: TextStyle(color: Colors.black , fontSize: 39),
           ),
       ),
             Container(
@@ -103,19 +103,19 @@ class _MyLoginState extends State<MyLogin> {
                       height: 20,
                     ),
 
-                    ElevatedButton(onPressed:(){}, child: Text('Login',
-                      style:TextStyle(color: Colors.white , fontSize: 25),),
+                    ElevatedButton(onPressed:(){},
                     style: ElevatedButton.styleFrom( shape: const StadiumBorder(),
-                    elevation:0.0, minimumSize: const Size.fromHeight(60), backgroundColor: Colors.indigoAccent)
+                    elevation:0.0, minimumSize: const Size.fromHeight(60), backgroundColor: Colors.indigoAccent), child: const Text('Login',
+                      style:TextStyle(color: Colors.white , fontSize: 25),)
                     ),
                     const SizedBox(height: 20,),
                     ElevatedButton(onPressed:(){
                       Navigator.pushNamed(context, 'register');},
-                        child: Text('Create an account',
-                      style: TextStyle(color: Colors.black , fontSize: 25),),
                         style: ElevatedButton.styleFrom( shape:const StadiumBorder(),
                             elevation: 0.0, minimumSize:const Size.fromHeight(60),
-                            side: BorderSide(color:Colors.grey,width: 1), backgroundColor: Colors.white70)
+                            side: const BorderSide(color:Colors.grey,width: 1), backgroundColor: Colors.white70),
+                        child: const Text('Create an account',
+                      style: TextStyle(color: Colors.black , fontSize: 25),)
                     ),
                   ],//children
                 ),
@@ -124,7 +124,7 @@ class _MyLoginState extends State<MyLogin> {
         ],
       ),
       ),
-      
+
     );
   }
 }

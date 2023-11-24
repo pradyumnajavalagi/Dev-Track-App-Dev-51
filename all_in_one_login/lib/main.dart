@@ -1,6 +1,5 @@
 
 
-import 'dart:js';
 
 import 'package:all_in_one_login/login.dart';
 import 'package:all_in_one_login/register.dart';
@@ -11,8 +10,8 @@ void main() {
     debugShowCheckedModeBanner: false,
     initialRoute: 'login',
     routes: {
-      'login':(context)=>MyLogin(),
-      'register':(context)=>MyRegister()
+      'login':(context)=>const MyLogin(),
+      'register':(context)=>const MyRegister()
     },
   ));
 }

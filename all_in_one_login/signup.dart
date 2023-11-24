@@ -118,17 +118,17 @@ class _MySignupState extends State<MySignup> {
                       height: 20,
                     ),
 
-                    ElevatedButton(onPressed:(){}, child: Text('Login',
-                      style:TextStyle(color: Colors.white , fontSize: 25),),
+                    ElevatedButton(onPressed:(){},
                         style: ElevatedButton.styleFrom( shape: const StadiumBorder(),
-                            elevation:0.0, minimumSize: const Size.fromHeight(60), backgroundColor: Colors.indigoAccent)
+                            elevation:0.0, minimumSize: const Size.fromHeight(60), backgroundColor: Colors.indigoAccent), child: const Text('Login',
+                      style:TextStyle(color: Colors.white , fontSize: 25),)
                     ),
                     const SizedBox(height: 20,),
-                    ElevatedButton(onPressed:(){}, child: Text('Create an account',
-                      style: TextStyle(color: Colors.black , fontSize: 25),),
+                    ElevatedButton(onPressed:(){},
                         style: ElevatedButton.styleFrom( shape:const StadiumBorder(),
                             elevation: 0.0, minimumSize:const Size.fromHeight(60),
-                            side: BorderSide(color:Colors.grey,width: 1), backgroundColor: Colors.white70)
+                            side: const BorderSide(color:Colors.grey,width: 1), backgroundColor: Colors.white70), child: const Text('Create an account',
+                      style: TextStyle(color: Colors.black , fontSize: 25),)
                     ),
                   ],//children
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class MyRegister extends StatefulWidget {
   const MyRegister({super.key});
 
@@ -19,12 +20,12 @@ class _MyRegisterState extends State<MyRegister> {
           children: [
             Container(
               padding:const EdgeInsets.only(left: 35,top: 100),
-              child: const Text('Welcome !' , style: TextStyle(color: Colors.black , fontSize: 39),
+              child: const Text('Welcome  ' , style: TextStyle(color: Colors.black , fontSize: 39),
               ),
             ),
             Container(
               padding: const EdgeInsets.only(left: 35,top: 180),
-              child: Text('Signup To Continue' , style: TextStyle(color: Colors.grey[700] , fontSize: 20),
+              child: Text('Login To Continue' , style: TextStyle(color: Colors.grey[700] , fontSize: 20),
               ),
             ),
 
@@ -53,6 +54,25 @@ class _MyRegisterState extends State<MyRegister> {
 
                     const Row(
                       children: [
+                        Text('Name',
+                          style:TextStyle( color: Colors.black,fontSize: 27 , fontWeight: FontWeight.w700) ,),
+
+                      ],
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                          fillColor: Colors.grey,
+                          hintText: 'Enter Name',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))
+                    ),),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    const Row(
+                      children: [
                         Text('Email',
                           style:TextStyle( color: Colors.black,fontSize: 27 , fontWeight: FontWeight.w700) ,),
 
@@ -67,7 +87,7 @@ class _MyRegisterState extends State<MyRegister> {
                           suffixIcon: const Icon(Icons.done)),
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
 
                     const Row(
@@ -90,34 +110,29 @@ class _MyRegisterState extends State<MyRegister> {
                       height: 20,
                     ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(onPressed: (){}, child: const Text('Forgot Password?',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.deepPurpleAccent) ,))
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    ElevatedButton(onPressed:(){}, child: Text('Login',
-                      style:TextStyle(color: Colors.white , fontSize: 25),),
-                        style: ElevatedButton.styleFrom( shape: const StadiumBorder(),
-                            elevation:0.0, minimumSize: const Size.fromHeight(60), backgroundColor: Colors.indigoAccent)
-                    ),
-                    const SizedBox(height: 20,),
-                    ElevatedButton(onPressed:(){
-                      Navigator.pushNamed(context, 'register');},
-                        child: Text('Create an account',
-                          style: TextStyle(color: Colors.black , fontSize: 25),),
+                    ElevatedButton(onPressed:(){},
                         style: ElevatedButton.styleFrom( shape:const StadiumBorder(),
                             elevation: 0.0, minimumSize:const Size.fromHeight(60),
-                            side: BorderSide(color:Colors.grey,width: 1), backgroundColor: Colors.white70)
+                            side: const BorderSide(color:Colors.grey,width: 1),backgroundColor: Colors.indigoAccent),
+                        child: const Text('Create ',
+                          style: TextStyle(color: Colors.black , fontSize: 25),)
                     ),
-                  ],//children
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Already have an account?',
+                          style:TextStyle( color: Colors.grey,fontSize: 20 , fontWeight: FontWeight.w400) ,),
+
+                        TextButton(onPressed: (){
+                          Navigator.pushNamed(context, 'login');
+                        }, child: const Text('Login',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.deepPurpleAccent),)),
+                      ],
+                    ),
+                     ],//children
                 ),
               ),
             )
@@ -128,3 +143,4 @@ class _MyRegisterState extends State<MyRegister> {
     );
   }
 }
+
