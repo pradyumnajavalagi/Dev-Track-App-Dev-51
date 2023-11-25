@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+class AddTask extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xff757575) ,
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.only(
+         topRight:Radius.circular(20.0),
+         topLeft: Radius.circular(20.0),
+    ),
+    ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              'Add Task',
+           textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.lightBlueAccent,
+            ),
+            ),
+            TextField(
+              autofocus: true,
+              textAlign: TextAlign.center,
+              // cursorColor: Colors.lightBlueAccent,
+            ),
+            SizedBox(height: 20.0),
+            TextButton(
+                onPressed:(){
+                  //add code
+                } ,
+                child: Text('Add',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.lightBlueAccent),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0.0),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                  ),
+            ),
+            ),
+            ),
+          ],
+        ),
+    ),
+    );
+  }
+}

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:todo/widgets/tasklist.dart';
+import 'package:todo/screens/addtask.dart';
 class TaskScreen extends StatelessWidget {
-  Widget buildBottomSheet(BuildContext context){
-    return Container(
-      child: Center(
-         child : Text('This is a bottom sheet')
-      ),
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(context: context, builder: buildBottomSheet);
+          showModalBottomSheet(
+              context: context, isScrollControlled: true,
+              builder: (context) =>  SingleChildScrollView(
+                  child:Container(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: AddTask(),
+                  ),
+              ),
+          );
         },
         backgroundColor: Colors.lightBlueAccent,
         child:Icon(Icons.add) ,
