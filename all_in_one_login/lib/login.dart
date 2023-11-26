@@ -93,7 +93,7 @@ class _MyLoginState extends State<MyLogin> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextButton(onPressed: (){}, child: const Text('Forgot Password?',
+                        TextButton(onPressed: (){Navigator.pushNamed(context, 'clubs');}, child: const Text('Forgot Password?(clubs)',
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.deepPurpleAccent) ,))
@@ -105,7 +105,8 @@ class _MyLoginState extends State<MyLogin> {
 
                     ElevatedButton(onPressed:(){},
                     style: ElevatedButton.styleFrom( shape: const StadiumBorder(),
-                    elevation:0.0, minimumSize: const Size.fromHeight(60), backgroundColor: Colors.indigoAccent), child: const Text('Login',
+                    elevation:0.0, minimumSize: const Size.fromHeight(60),
+                        backgroundColor: Color.fromRGBO(102, 107, 237, 1)), child: const Text('Login',
                       style:TextStyle(color: Colors.white , fontSize: 25),)
                     ),
                     const SizedBox(height: 20,),
@@ -113,7 +114,8 @@ class _MyLoginState extends State<MyLogin> {
                       Navigator.pushNamed(context, 'register');},
                         style: ElevatedButton.styleFrom( shape:const StadiumBorder(),
                             elevation: 0.0, minimumSize:const Size.fromHeight(60),
-                            side: const BorderSide(color:Colors.grey,width: 1), backgroundColor: Colors.white70),
+                            side: const BorderSide(color:Colors.grey,width: 1),
+                            backgroundColor: Colors.white70),
                         child: const Text('Create an account',
                       style: TextStyle(color: Colors.black , fontSize: 25),)
                     ),

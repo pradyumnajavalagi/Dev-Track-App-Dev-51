@@ -113,7 +113,8 @@ class _MyRegisterState extends State<MyRegister> {
                     ElevatedButton(onPressed:(){},
                         style: ElevatedButton.styleFrom( shape:const StadiumBorder(),
                             elevation: 0.0, minimumSize:const Size.fromHeight(60),
-                            side: const BorderSide(color:Colors.grey,width: 1),backgroundColor: Colors.indigoAccent),
+                            side: const BorderSide(color:Colors.grey,width: 1),
+                            backgroundColor: Color.fromRGBO(102, 107, 237, 1)),
                         child: const Text('Create ',
                           style: TextStyle(color: Colors.black , fontSize: 25),)
                     ),
@@ -122,7 +123,7 @@ class _MyRegisterState extends State<MyRegister> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('Already have an account?',
-                          style:TextStyle( color: Colors.grey,fontSize: 20 , fontWeight: FontWeight.w400) ,),
+                          style:TextStyle( color: Colors.grey,fontSize: 21 , fontWeight: FontWeight.w700) ,),
 
                         TextButton(onPressed: (){
                           Navigator.pushNamed(context, 'login');
