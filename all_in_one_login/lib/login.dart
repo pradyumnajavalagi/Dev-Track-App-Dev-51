@@ -12,19 +12,22 @@ class _MyLoginState extends State<MyLogin> {
   Widget build(BuildContext context) {
     return  Container(
       decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/whitepage.jpg'),fit: BoxFit.cover)),
+          image: DecorationImage(
+              image: AssetImage('assets/whitepage.jpg'),fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent ,
         body: Stack(
           children: [
             Container(
               padding:const EdgeInsets.only(left: 35,top: 100),
-              child: const Text('Welcome Back! ' , style: TextStyle(color: Colors.black , fontSize: 39),
+              child: const Text('Welcome Back! ' , style: TextStyle(
+                  color: Colors.black , fontSize: 39),
           ),
       ),
             Container(
               padding: const EdgeInsets.only(left: 35,top: 180),
-              child: Text('Login To Continue' , style: TextStyle(color: Colors.grey[700] , fontSize: 20),
+              child: Text('Login To Continue' , style: TextStyle(
+                  color: Colors.grey[700] , fontSize: 20),
               ),
             ),
 
@@ -43,7 +46,8 @@ class _MyLoginState extends State<MyLogin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                           Text('Or continue with email',
-                            style:TextStyle( color: Colors.grey,fontSize: 20 , fontWeight: FontWeight.w400) ,),
+                            style:TextStyle( color: Colors.grey,fontSize: 20 ,
+                                fontWeight: FontWeight.w400) ,),
 
                       ],
                     ),
@@ -54,7 +58,8 @@ class _MyLoginState extends State<MyLogin> {
                     const Row(
                       children: [
                         Text('Email',
-                          style:TextStyle( color: Colors.black,fontSize: 27 , fontWeight: FontWeight.w700) ,),
+                          style:TextStyle( color: Colors.black,fontSize: 27 ,
+                              fontWeight: FontWeight.w700) ,),
 
                       ],
                     ),
@@ -73,7 +78,8 @@ class _MyLoginState extends State<MyLogin> {
                     const Row(
                       children: [
                         Text('Password',
-                          style:TextStyle( color: Colors.black,fontSize: 27 , fontWeight: FontWeight.w700) ,),
+                          style:TextStyle( color: Colors.black,fontSize: 27 ,
+                              fontWeight: FontWeight.w700) ,),
 
                       ],
                     ),
@@ -93,7 +99,8 @@ class _MyLoginState extends State<MyLogin> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextButton(onPressed: (){Navigator.pushNamed(context, 'clubs');}, child: const Text('Forgot Password?(clubs)',
+                        TextButton(onPressed: (){Navigator.pushNamed(context, 'clubs');},
+                            child: const Text('Forgot Password?(clubs)',
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.deepPurpleAccent) ,))
