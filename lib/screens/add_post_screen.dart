@@ -1,10 +1,14 @@
 import 'dart:typed_data';
 import 'dart:ui';
-
+import 'package:appdev51/models/user.dart';
+import 'package:appdev51/resources/firestore_methods.dart';
 import 'package:appdev51/utils/colors.dart';
 import 'package:appdev51/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user_providers.dart';
 
 // import 'cu';
 class AddPostScreen extends StatefulWidget {
@@ -17,6 +21,33 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
+
+  void postImage(
+      String uid,
+      String username,
+      String profImage,
+      ) async {
+    try {
+      if (_file != null) {
+        String res = await FirestoreMethods().uploadPost(
+          _descriptionController.text,
+          _file!,
+          uid,
+          username,
+          profImage,
+        );
+        if (res == 'success') {
+          showSnackBar('Posted!', context);
+        } else {
+          showSnackBar(res, context);
+        }
+      } else {
+        showSnackBar('Please select an image first.', context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -64,13 +95,20 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // final User user = Provider.of<UserProvider>(context).getUser;
+    final User? user = Provider.of<UserProvider>(context).getUser;
 
     return _file == null
         ? Center(
             child: IconButton(
-                onPressed: () => _selectImage(context) ,
+                onPressed: () => _selectImage(context),
                 icon: const Icon(Icons.upload)),
           )
         : Scaffold(
@@ -93,7 +131,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: ()=>postImage(
+                      user!.uid,
+                      user.username,
+                      user.photoUrl,
+                    ),
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(secondaryColor),
@@ -115,10 +157,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundImage: NetworkImage(
-                          //user.photoUrl,
-                            "https://64.media.tumblr.com/04e9d05382743bcae8647c26e63f0fc2/b91c19a5e4c2943b-16/s1280x1920/bddf53bfc36d98666332619ecd72418cc529e5da.jpg"),
+                          'https://64.media.tumblr.com/04e9d05382743bcae8647c26e63f0fc2/b91c19a5e4c2943b-16/s1280x1920/bddf53bfc36d98666332619ecd72418cc529e5da.jpg',
+                        ),
                         minRadius: 20,
                       ),
                       SizedBox(
@@ -140,7 +182,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: MemoryImage(_file!),fit: BoxFit.fill,
+                                  image: MemoryImage(_file!),
+                                  fit: BoxFit.fill,
                                   alignment: FractionalOffset.topCenter,
                                 ),
                               ),

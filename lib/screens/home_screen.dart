@@ -1,10 +1,13 @@
 // Add this import for ClipRRect
+import 'package:appdev51/providers/user_providers.dart';
 import 'package:appdev51/screens/add_post_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appdev51/utils/colors.dart';
 import 'package:flutter/widgets.dart';
-import 'package:appdev51/custom_app_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreenLayout extends StatefulWidget {
   const HomeScreenLayout({super.key});
@@ -14,13 +17,30 @@ class HomeScreenLayout extends StatefulWidget {
 }
 
 class _HomeScreenLayoutState extends State<HomeScreenLayout> {
+  String Username = "";
   int _page = 0;
   late PageController pageController;
 
   @override
   void initState() {
     pageController = PageController();
+    getUsername();
+    addData();
     super.initState();
+  }
+  addData() async{
+    UserProvider _userProvider = Provider.of(context,listen: false);
+    await _userProvider.refreshUser();
+  }
+
+  void getUsername() async {
+    DocumentSnapshot snap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      Username = snap['username'];
+    });
   }
 
   @override
@@ -45,7 +65,7 @@ class _HomeScreenLayoutState extends State<HomeScreenLayout> {
       // appBar: navBar(),
       body: PageView(
         children: [
-          Text('feed'),
+          Center(child: Text('home')),
           Text('search'),
           AddPostScreen(),
           Text('notifications'),
@@ -59,7 +79,7 @@ class _HomeScreenLayoutState extends State<HomeScreenLayout> {
         height: 100,
         decoration: BoxDecoration(
           boxShadow: [
-            BoxShadow(color: Colors.grey,offset: Offset(0, 2),blurRadius: 30),
+            BoxShadow(color: Colors.grey, offset: Offset(0, 2), blurRadius: 30),
           ],
         ),
         child: ClipRRect(
@@ -96,9 +116,7 @@ class _HomeScreenLayoutState extends State<HomeScreenLayout> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  _page == 3
-                      ? Icons.favorite
-                      : Icons.favorite_outline_outlined,
+                  _page == 3 ? Icons.favorite : Icons.favorite_outline_outlined,
                   color: primaryColor,
                 ),
                 label: '',

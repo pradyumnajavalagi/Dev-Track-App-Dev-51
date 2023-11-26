@@ -1,5 +1,10 @@
 import 'package:appdev51/utils/colors.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class MyLogin extends StatefulWidget {
   const MyLogin({super.key});
@@ -9,6 +14,18 @@ class MyLogin extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLogin> {
+  final _auth = FirebaseAuth.instance;
+  bool showSpinner = false;
+  String email = '';
+  String password = '';
+  String username = '';
+
+  Future<bool> checkConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +33,7 @@ class _MyLoginState extends State<MyLogin> {
         // alignment: Alignment.bottomCenter,
         // color: ,
         decoration: const BoxDecoration(
-            image: DecorationImage(image: NetworkImage('https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA0L3JtNDM1LTI2LWtycHU2cnZlLmpwZw.jpg'),fit: BoxFit.cover)),
+            image: DecorationImage(image: AssetImage('assets/img.png'),fit: BoxFit.cover)),
           // color: Colors.transparent ,
            child: Scaffold(
              backgroundColor: Colors.transparent,
@@ -90,6 +107,10 @@ class _MyLoginState extends State<MyLogin> {
                                 ],
                               ),
                               TextField(
+                                onChanged: (value){
+                                  email = value;
+                                },
+                                // controller: _emailController,
                                 decoration: InputDecoration(
                                     fillColor: Colors.grey,
                                     hintText: 'user@mail.com',
@@ -110,6 +131,10 @@ class _MyLoginState extends State<MyLogin> {
                               ),
                               TextField(
                                 obscureText: true,
+                                onChanged: (value){
+                                  password = value;
+                                },
+                                // controller: _passwordController,
                                 decoration: InputDecoration(
                                     fillColor: Colors.grey,
                                     hintText: 'Password@123',
@@ -134,12 +159,66 @@ class _MyLoginState extends State<MyLogin> {
                                 height: 20,
                               ),
 
-                              ElevatedButton(onPressed:(){
-                                Navigator.pushNamed(context, 'home');
-                              }, child: Text('Login',
-                                style:TextStyle(color: Colors.white , fontSize: 20),),
-                                  style: ElevatedButton.styleFrom( shape: const StadiumBorder(),
-                                      elevation:0.0, minimumSize: const Size.fromHeight(60), backgroundColor: secondaryColor),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  bool isConnected = await checkConnectivity();
+
+                                  if (!isConnected) {
+                                    // Display a pop-up or show a snackbar indicating no network connection.
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('No Network'),
+                                          content: Text('Please check your internet connection.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    return;
+                                  }
+
+                                  setState(() {
+                                    showSpinner = true;
+                                  });
+
+                                  try {
+                                    final user = await _auth.signInWithEmailAndPassword(
+                                        email: email, password: password);
+                                    Navigator.pushNamed(context, 'home');
+                                    // await _firestore.collection('users').doc(_auth.currentUser?.uid).set({
+                                    //   'username': username,
+                                    //   'uid': _auth.currentUser?.uid,
+                                    //   'email': email,
+                                    //   'followers': [],
+                                    //   'following': [],
+                                    //   // 'files' : ,
+                                    // });
+                                    setState(() {
+                                      showSpinner = false;
+                                    });
+                                  } catch (e) {
+                                    print(e);
+                                    setState(() {
+                                      showSpinner = false;
+                                    });
+                                  }
+                                  //Go to login screen.
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: const StadiumBorder(),
+                                  elevation: 0.0,
+                                  minimumSize: const Size.fromHeight(60),
+                                  backgroundColor: secondaryColor,
+                                ),
+                                child: const Text('Login', style: TextStyle(color: Colors.white, fontSize: 20)),
                               ),
                               const SizedBox(height: 20,),
                               Padding(
