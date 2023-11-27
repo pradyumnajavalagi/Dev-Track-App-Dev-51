@@ -45,51 +45,66 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         onPageChanged: onPageChanged,
         children: homeScreenItems,
       ),
-      bottomNavigationBar: CupertinoTabBar(
-        backgroundColor: mobileBackgroundColor,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: (_page == 0) ? primaryColor : secondaryColor,
-            ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
-          BottomNavigationBarItem(
+      bottomNavigationBar: Container(
+    height: 100,
+    decoration: BoxDecoration(
+    boxShadow: [
+    BoxShadow(color: Colors.grey, offset: Offset(0, 2), blurRadius: 30),
+    ],
+    ),
+    child: ClipRRect(
+    borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(35),
+    topRight: Radius.circular(35),
+    ),
+        child: CupertinoTabBar(
+          backgroundColor: secondaryColor,
+          items: [
+            BottomNavigationBarItem(
               icon: Icon(
-                Icons.search,
-                color: (_page == 1) ? primaryColor : secondaryColor,
+                _page == 0 ? Icons.home : Icons.home_outlined,
+                color: primaryColor,
               ),
               label: '',
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
+              backgroundColor: primaryColor,
+            ),
+            BottomNavigationBarItem(
               icon: Icon(
-                Icons.add_circle,
-                color: (_page == 2) ? primaryColor : secondaryColor,
+                _page == 1 ? Icons.search : Icons.search_outlined,
+                color: primaryColor,
               ),
               label: '',
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite,
-              color: (_page == 3) ? primaryColor : secondaryColor,
+              backgroundColor: primaryColor,
             ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: (_page == 4) ? primaryColor : secondaryColor,
+            BottomNavigationBarItem(
+              icon: Icon(
+                _page == 2 ? Icons.add_box_rounded : Icons.add,
+                color: primaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor,
             ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
-        ],
-        onTap: navigationTapped,
-        currentIndex: _page,
+            BottomNavigationBarItem(
+              icon: Icon(
+                _page == 3 ? Icons.favorite : Icons.favorite_outline_outlined,
+                color: primaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                _page == 4 ? Icons.person : Icons.person_outlined,
+                color: primaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor,
+            ),
+          ],
+          onTap: navigationTapped,
+          currentIndex: _page,
+        ),
       ),
-    );
+    ),);
   }
 }
