@@ -45,9 +45,6 @@ class AddTask extends StatelessWidget {
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0.0),
                   ),
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-                  ),
             ),
             ),
             ),
