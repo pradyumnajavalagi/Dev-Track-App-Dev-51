@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1082985809440",
+    "project_id": "draftbrandstore",
+    "storage_bucket": "draftbrandstore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082985809440:android:dcc3b730331605ca36de45",
+        "android_client_info": {
+          "package_name": "com.example.draftbrandstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASIQOWOMhNee98dk4Qw8KYW5dspVCB9Hk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
 import '../models/shop.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyProductTile extends StatelessWidget {
   final Product product;
@@ -20,6 +21,11 @@ class MyProductTile extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
                 context.read<Shop>().addToCart(product);
+                Map<String,String> dataToSave={
+                  'name':product.name,
+                  'description':product.description,
+                };
+                FirebaseFirestore.instance.collection('products').add(dataToSave);
               },
               child: Text('Yes'),
             ),
