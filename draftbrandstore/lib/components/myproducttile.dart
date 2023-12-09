@@ -10,8 +10,6 @@ class MyProductTile extends StatelessWidget {
   final Product product;
   final docUser=FirebaseFirestore.instance.collection('products').doc();
 
-
-
   MyProductTile({super.key, required this.product});
   void addToCart (BuildContext context)async{
     showDialog(context: context,
@@ -114,17 +112,6 @@ class MyProductTile extends StatelessWidget {
   }
 }
 
-class MyPT extends StatefulWidget {
-  const MyPT({super.key});
 
-  @override
-  State<MyPT> createState() => _MyPTState();
-}
 
-class _MyPTState extends State<MyPT> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
 
