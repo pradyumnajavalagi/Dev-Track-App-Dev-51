@@ -10,6 +10,8 @@ import 'package:MyUni/screens/login_screen.dart';
 import 'package:MyUni/utils/colors.dart';
 import 'package:provider/provider.dart';
 
+import 'models/shop.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -27,7 +29,8 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(create: (context)=>Shop(),
+    child: const MyApp(),),);
 }
 
 class MyApp extends StatelessWidget {

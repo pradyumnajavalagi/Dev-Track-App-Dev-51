@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:MyUni/utils/colors.dart';
@@ -21,8 +22,9 @@ class _FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       backgroundColor:
           width > webScreenSize ? webBackgroundColor : mobileBackgroundColor,
+      drawer: NavBar(uid: FirebaseAuth.instance.currentUser!.uid),
       appBar: width > webScreenSize ? null : navBar(context),
-      drawer: Drawer(),
+
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('posts').snapshots(),
         builder: (context,

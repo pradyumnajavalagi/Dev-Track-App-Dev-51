@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../utils/utils.dart';
+
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 late User loggedInUser;
 
 class ChatScreen extends StatefulWidget {
   static const String id = "chat_screen";
+  final String uid;
+  const ChatScreen({Key? key, required this.uid}) : super(key: key);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -19,11 +23,35 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
 
   late String messageText;
+  var userData = {};
+  bool isLoading = false;
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.uid)
+          .get();
+      userData = userSnap.data()!;
+      setState(() {});
+    } catch (e) {
+      showSnackBar(
+        context,
+        e.toString(),
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     getCurrentUser();
+    getData();
   }
 
   // void getMessages() async {
@@ -56,18 +84,27 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: null,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              _auth.signOut();
-              Navigator.pop(context);
-              //Implement logout functionality
-            },
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
           ),
-        ],
-        title: Text('⚡️Chat'),
+        ),
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(Icons.close),
+        //     onPressed: () {
+        //       _auth.signOut();
+        //       Navigator.pop(context);
+        //       //Implement logout functionality
+        //     },
+        //   ),
+        // ],
+        title: Text('⚡️Chat',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: secondaryColor,
       ),
       body: SafeArea(
@@ -116,12 +153,17 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
+class MessageStream extends StatefulWidget {
+  @override
+  State<MessageStream> createState() => _MessageStreamState();
+}
 
-class MessageStream extends StatelessWidget {
+class _MessageStreamState extends State<MessageStream> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection("messages").orderBy("timestamp").snapshots(),
+      stream:
+          _firestore.collection("messages").orderBy("timestamp").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -136,8 +178,10 @@ class MessageStream extends StatelessWidget {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
           final currentUser = loggedInUser.email;
-          final messageBubble =
-          MessageBubble(text: messageText, sender: messageSender, isMe: currentUser == messageSender);
+          final messageBubble = MessageBubble(
+              text: messageText,
+              sender: messageSender,
+              isMe: currentUser == messageSender);
           messageBubbles.add(messageBubble);
         }
         return Expanded(
@@ -160,7 +204,8 @@ class MessageBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: isMe?CrossAxisAlignment.end: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text(
             sender,
@@ -171,15 +216,23 @@ class MessageBubble extends StatelessWidget {
           ),
           Material(
             elevation: 5.0,
-            borderRadius: isMe? BorderRadius.only(topLeft: Radius.circular(50.0), bottomLeft: Radius.circular(50.0), bottomRight: Radius.circular(50.0)):BorderRadius.only(topRight: Radius.circular(50.0), bottomLeft: Radius.circular(50.0), bottomRight: Radius.circular(50.0)),
-            color: isMe?secondaryColor:Colors.white,
+            borderRadius: isMe
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(50.0),
+                    bottomLeft: Radius.circular(50.0),
+                    bottomRight: Radius.circular(50.0))
+                : BorderRadius.only(
+                    topRight: Radius.circular(50.0),
+                    bottomLeft: Radius.circular(50.0),
+                    bottomRight: Radius.circular(50.0)),
+            color: isMe ? secondaryColor : Colors.white,
             child: Padding(
               padding:
-              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
               child: Text(
                 text,
                 style: TextStyle(
-                  color: isMe? Colors.white: Colors.black54,
+                  color: isMe ? Colors.white : Colors.black54,
                   fontSize: 16.0,
                 ),
               ),
