@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "505223182432",
+    "project_id": "finaltodo-d9dd6",
+    "storage_bucket": "finaltodo-d9dd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505223182432:android:06e1729b0198e72f2b2b05",
+        "android_client_info": {
+          "package_name": "com.example.finaltodo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4fhvgEkMp-i_xgB8-gSkIJtiCBz6uxkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505223182432:android:7f1bb1a993b19c5d2b2b05",
+        "android_client_info": {
+          "package_name": "com.example.flutter_todo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4fhvgEkMp-i_xgB8-gSkIJtiCBz6uxkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
