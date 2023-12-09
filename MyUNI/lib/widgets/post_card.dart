@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/models/user.dart' as model;
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
-import 'package:instagram_clone_flutter/screens/comments_screen.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/global_variable.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/like_animation.dart';
+import 'package:MyUni/models/user.dart' as model;
+import 'package:MyUni/providers/user_provider.dart';
+import 'package:MyUni/resources/firestore_methods.dart';
+import 'package:MyUni/screens/comments_screen.dart';
+import 'package:MyUni/utils/colors.dart';
+import 'package:MyUni/utils/global_variable.dart';
+import 'package:MyUni/utils/utils.dart';
+import 'package:MyUni/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -104,6 +104,7 @@ class _PostCardState extends State<PostCard> {
                         Text(
                           widget.snap['username'].toString(),
                           style: const TextStyle(
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -276,11 +277,16 @@ class _PostCardState extends State<PostCard> {
                         TextSpan(
                           text: widget.snap['username'].toString(),
                           style: const TextStyle(
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextSpan(
                           text: ' ${widget.snap['description']}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),

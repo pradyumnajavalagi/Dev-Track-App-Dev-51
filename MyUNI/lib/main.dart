@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone_flutter/responsive/responsive_layout.dart';
-import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
-import 'package:instagram_clone_flutter/screens/login_screen.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
+import 'package:MyUni/providers/user_provider.dart';
+import 'package:MyUni/responsive/mobile_screen_layout.dart';
+import 'package:MyUni/responsive/responsive_layout.dart';
+import 'package:MyUni/responsive/web_screen_layout.dart';
+import 'package:MyUni/screens/login_screen.dart';
+import 'package:MyUni/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -17,11 +17,11 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyCZ-xrXqD5D19Snauto-Fx_nLD7PLrBXGM",
-        appId: "1:585119731880:web:eca6e4b3c42a755cee329d",
+        apiKey: "AIzaSyCRoLjrf9H_2nWU90wvDHA5cWOilPm-wOc",
+        appId: "1:60502507103:web:6815d04cb7ea8721f025ea",
         messagingSenderId: "585119731880",
-        projectId: "instagram-clone-4cea4",
-        storageBucket: 'instagram-clone-4cea4.appspot.com'
+        projectId: "myuni-1b35c",
+        storageBucket: 'myuni-1b35c.appspot.com'
       ),
     );
   } else {
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Instagram Clone',
+        title: 'MyUni',
         theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),

@@ -2,10 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/resources/firestore_methods.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
+import 'package:MyUni/providers/user_provider.dart';
+import 'package:MyUni/resources/firestore_methods.dart';
+import 'package:MyUni/utils/colors.dart';
+import 'package:MyUni/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -128,30 +128,41 @@ class _AddPostScreenState extends State<AddPostScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              elevation: 0.0,
+              backgroundColor: Colors.white,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
+                color: Colors.black,
                 onPressed: clearImage,
               ),
               title: const Text(
-                'Post to',
+                'New Post',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                )
               ),
               centerTitle: false,
               actions: <Widget>[
-                TextButton(
-                  onPressed: () => postImage(
-                    userProvider.getUser.uid,
-                    userProvider.getUser.username,
-                    userProvider.getUser.photoUrl,
+                Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextButton(
+                      onPressed: () => postImage(
+                        userProvider.getUser.uid,
+                        userProvider.getUser.username,
+                        userProvider.getUser.photoUrl,
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(secondaryColor),
+                      ),
+                      child: const Text(
+                        'post',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
-                  child: const Text(
-                    "Post",
-                    style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0),
-                  ),
-                )
               ],
             ),
             // POST FORM
@@ -171,7 +182,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
+                      width: MediaQuery.of(context).size.width * 0.45,
                       child: TextField(
                         controller: _descriptionController,
                         decoration: const InputDecoration(

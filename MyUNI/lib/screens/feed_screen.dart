@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram_clone_flutter/utils/colors.dart';
-import 'package:instagram_clone_flutter/utils/global_variable.dart';
-import 'package:instagram_clone_flutter/widgets/custom_app_bar.dart';
-import 'package:instagram_clone_flutter/widgets/post_card.dart';
+import 'package:MyUni/utils/colors.dart';
+import 'package:MyUni/utils/global_variable.dart';
+import 'package:MyUni/widgets/custom_app_bar.dart';
+import 'package:MyUni/widgets/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -21,10 +21,8 @@ class _FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       backgroundColor:
           width > webScreenSize ? webBackgroundColor : mobileBackgroundColor,
-      appBar: width > webScreenSize
-          ? null
-          : navBar(
-      ),
+      appBar: width > webScreenSize ? null : navBar(context),
+      drawer: Drawer(),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('posts').snapshots(),
         builder: (context,
