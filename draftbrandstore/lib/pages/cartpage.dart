@@ -32,7 +32,7 @@ class CartPage extends StatefulWidget {
                     //DELETE DATA FROM FIRESTORE
                     FirebaseFirestore.instance
                         .collection('products')
-                        .where('name', isEqualTo: product.name)
+                        .where('pid', isEqualTo: product.pid)
                         .get()
                         .then((QuerySnapshot querySnapshot) {
                       querySnapshot.docs.forEach((doc) {

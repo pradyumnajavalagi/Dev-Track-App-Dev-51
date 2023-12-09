@@ -31,6 +31,7 @@ class MyProductTile extends StatelessWidget {
                   'pid' : docUser.id,
                 };
                 FirebaseFirestore.instance.collection('products').add(dataToSave);
+                product.pid = docUser.id;
               },
               child: Text('Yes'),
             ),
