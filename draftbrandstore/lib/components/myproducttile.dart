@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
@@ -6,8 +8,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyProductTile extends StatelessWidget {
   final Product product;
-  const MyProductTile({super.key, required this.product});
-  void addToCart(BuildContext context){
+  final docUser=FirebaseFirestore.instance.collection('products').doc();
+
+
+
+  MyProductTile({super.key, required this.product});
+  void addToCart (BuildContext context)async{
     showDialog(context: context,
         builder: (context)=>AlertDialog(
           content: Text('Add to cart?'),
@@ -23,7 +29,8 @@ class MyProductTile extends StatelessWidget {
                 context.read<Shop>().addToCart(product);
                 Map<String,String> dataToSave={
                   'name':product.name,
-                  'description':product.description,
+                  'price':product.price,
+                  'pid' : docUser.id,
                 };
                 FirebaseFirestore.instance.collection('products').add(dataToSave);
               },
@@ -89,7 +96,7 @@ class MyProductTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(product.price.toStringAsFixed(2)),
+              Text(product.price),
               Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
@@ -106,3 +113,18 @@ class MyProductTile extends StatelessWidget {
     );
   }
 }
+
+class MyPT extends StatefulWidget {
+  const MyPT({super.key});
+
+  @override
+  State<MyPT> createState() => _MyPTState();
+}
+
+class _MyPTState extends State<MyPT> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+

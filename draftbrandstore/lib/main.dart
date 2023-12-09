@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:draftbrandstore/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/intropage':(context)=> const IntroPage(),
         '/shoppage':(context)=>const ShopPage(),
-        '/cartpage':(context)=>const CartPage(),
+        '/cartpage':(context)=> CartPage(),
       },
     );
   }
