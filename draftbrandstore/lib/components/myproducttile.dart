@@ -11,6 +11,7 @@ class MyProductTile extends StatelessWidget {
   final docUser=FirebaseFirestore.instance.collection('products').doc();
 
   MyProductTile({super.key, required this.product});
+
   void addToCart (BuildContext context)async{
     showDialog(context: context,
         builder: (context)=>AlertDialog(
@@ -24,14 +25,15 @@ class MyProductTile extends StatelessWidget {
             MaterialButton(
               onPressed: () {
                 Navigator.pop(context);
+
+
                 context.read<Shop>().addToCart(product);
                 Map<String,String> dataToSave={
                   'name':product.name,
-                  'price':product.price,
+                  'price':product.mrp,
                   'pid' : docUser.id,
                 };
                 FirebaseFirestore.instance.collection('products').add(dataToSave);
-                product.pid = docUser.id;
               },
               child: Text('Yes'),
             ),
@@ -95,7 +97,7 @@ class MyProductTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(product.price),
+              Text(product.mrp),
               Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
