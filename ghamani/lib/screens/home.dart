@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../model/todo.dart';
 import '../constants/colors.dart';
@@ -11,6 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   final todosList = ToDo.todoList();
   List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
@@ -21,6 +23,14 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  void _addTask(){
+    FirebaseFirestore.instance.collection('Task').add(
+      {
+        "title":_todoController.text,
+        "completed": false,
+      }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,32 +46,21 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 searchBox(),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 20,
-                          bottom: 20,
-                        ),
-                        child: Text(
-                          'TASKS',
-                          style: TextStyle(
-                            color: tdicon,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      for (ToDo todoo in _foundToDo.reversed)
-                        ToDoItem(
-                          todo: todoo,
-                          onToDoChanged: _handleToDoChange,
-                          onDeleteItem: _deleteToDoItem,
-                        ),
-                    ],
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 20,
+                    bottom: 20,
                   ),
-                )
+                  child: Text(
+                    'TASKS',
+                    style: TextStyle(
+                      color: tdicon,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Expanded(child: ToDoItem(todo:  ToDo(id: '01', todoText: 'Morning Excercise', isDone: true )))
               ],
             ),
           ),
@@ -72,7 +71,7 @@ class _HomeState extends State<Home> {
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: 20,
-                    right: 15,
+                    right: 7,
                     left: 20,
                   ),
                   padding: EdgeInsets.symmetric(
@@ -101,27 +100,25 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Container(
-                height: 60,
-                width: 60,
-                margin: EdgeInsets.only(
-                  bottom: 20,
-                  right: 15,
-                ),
-                child: ElevatedButton(
-                  child: Text(
-                    '+',
-                    style:  TextStyle(
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20, right: 10),
+                child: Container(
+                  height: 56,
+                  child: ElevatedButton(
+                    child: Icon(
+                      Icons.add,
                       color: tdicon,
-                      fontSize: 35,
+                      size: 33,
                     ),
-                  ),
-                  onPressed: () {
-                    _addToDoItem(_todoController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: tdpink,
-                    elevation: 10,
+                    onPressed: () {
+                      _addTask();
+                      _addToDoItem(_todoController.text);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      backgroundColor: tdpink,
+                      elevation: 10,
+                    ),
                   ),
                 ),
               ),
@@ -132,17 +129,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _handleToDoChange(ToDo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
+  // void _handleToDoChange(ToDoItem todo) {
+  //   setState(() {
+  //     todo.isDone = !todo.isDone;
+  //   });
+  // }
 
-  void _deleteToDoItem(String id) {
-    setState(() {
-      todosList.removeWhere((item) => item.id == id);
-    });
-  }
 
   void _addToDoItem(String toDo) {
     setState(() {
@@ -165,7 +157,6 @@ class _HomeState extends State<Home> {
               .contains(enteredKeyword.toLowerCase()))
           .toList();
     }
-
     setState(() {
       _foundToDo = results;
     });
@@ -179,6 +170,7 @@ class _HomeState extends State<Home> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
+        style: TextStyle(color: Colors.white),
         onChanged: (value) => _runFilter(value),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
@@ -209,25 +201,6 @@ class _HomeState extends State<Home> {
           color: tdicon,
           size: 30,
         ),
-
-
-        // Icon(
-        //   Icons.search,
-        //   color: tdicon,
-        //   size: 30,
-        // ),
-
-
-        // Container(
-        //   height: 40,
-        //   width: 40,
-        //   child: ClipRRect(
-        //     borderRadius: BorderRadius.circular(20),
-        //     child: Image.asset('assets/images/avatar.jpeg'),
-        //   ),
-        // ),
-
-
       ]),
     );
   }
