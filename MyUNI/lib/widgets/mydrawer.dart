@@ -1,4 +1,5 @@
 import 'package:MyUni/screens/intropage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/cartpage.dart';
@@ -38,7 +39,7 @@ class MyDrawer extends StatelessWidget {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CartPage()),
+                    MaterialPageRoute(builder: (context) => CartPage(uid: FirebaseAuth.instance.currentUser!.uid)),
                   );
                 },
               ),

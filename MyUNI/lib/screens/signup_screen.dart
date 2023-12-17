@@ -24,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _bioController = TextEditingController();
   bool _isLoading = false;
   Uint8List? _image;
+bool _isObscure = true;
 
   @override
   void dispose() {
@@ -255,8 +256,16 @@ class _SignupScreenState extends State<SignupScreen> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            suffixIcon:
-                            const Icon(Icons.remove_red_eye_sharp),
+                            suffixIcon:GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              child: _isObscure
+                                  ? const Icon(Icons.visibility_off_sharp)
+                                  : const Icon(Icons.remove_red_eye_sharp),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 40),

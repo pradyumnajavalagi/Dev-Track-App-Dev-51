@@ -1,4 +1,5 @@
 import 'package:MyUni/screens/cartpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/shop.dart';
@@ -20,7 +21,7 @@ class ShopPage extends StatelessWidget {
         IconButton(onPressed: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CartPage()),
+            MaterialPageRoute(builder: (context) => CartPage(uid: FirebaseAuth.instance.currentUser!.uid,)),
           );
         },
             icon: Icon(Icons.shopping_cart_outlined, color: Colors.white,)),

@@ -1,3 +1,4 @@
+import 'package:MyUni/screens/cartpage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
@@ -6,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyProductTile extends StatelessWidget {
   final Product product;
-  final docUser=FirebaseFirestore.instance.collection('products').doc();
+  final docUser=FirebaseFirestore.instance.collection('cart').doc();
 
   MyProductTile({Key? key, required this.product}) : super(key: key);
   void addToCart (BuildContext context)async{
@@ -24,11 +25,14 @@ class MyProductTile extends StatelessWidget {
                 Navigator.pop(context);
                 context.read<Shop>().addToCart(product);
                 Map<String,String> dataToSave={
+                  'userEmail': loggedInUser.email!,
                   'name':product.name,
                   'price':product.price,
                   'pid' : docUser.id,
+                  'description':'',
+                  'imagePath':'',
                 };
-                FirebaseFirestore.instance.collection('products').add(dataToSave);
+                FirebaseFirestore.instance.collection('cart').add(dataToSave);
                 product.pid = docUser.id;
               },
               child: Text('Yes'),

@@ -1,90 +1,78 @@
-
-import 'package:MyUni/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../models/product.dart';
-import '../models/productfetch.dart';
 import '../models/shop.dart';
+import '../utils/colors.dart';
 import '../widgets/mybutton.dart';
+import '../utils/utils.dart';
+
+final _auth = FirebaseAuth.instance;
+User loggedInUser = _auth.currentUser!;
+final String uid = _auth.currentUser!.uid;
 
 class CartPage extends StatefulWidget {
-  CartPage();
+  static const String id = "CartPage";
+  final String uid;
+
+  const CartPage({Key? key, required this.uid}) : super(key: key);
+
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
-void removeFromCart(BuildContext context, Product product) {
-  showDialog(context: context,
-      builder: (context) =>
-          AlertDialog(
-            content: Text('Remove from cart?'),
-            actions: [
-              MaterialButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Cancel'),
-              ),
+class _CartPageState extends State<CartPage> {
+  void removeFromCart(BuildContext context, Product item) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text('Remove from cart?'),
+        actions: [
+          MaterialButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          MaterialButton(
+            onPressed: () async {
+              Navigator.pop(context);
 
-              MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  context.read<Shop>().removeFromCart(product);
+              // Remove from the local cart
+              context.read<Shop>().removeFromCart(item);
 
-                  //DELETE DATA FROM FIRESTORE
-                  FirebaseFirestore.instance
-                      .collection('products')
-                      .where('name', isEqualTo: product.name)
-                      .get()
-                      .then((QuerySnapshot querySnapshot) {
-                    if (querySnapshot.docs.isNotEmpty) {
-                      querySnapshot.docs.first.reference.delete();}
-                  });
-                },
-                child: Text('Yes'),
-              ),
-            ],
-          ));
-}
-
-void payButtonPressed(BuildContext context) {
-  showDialog(context: context,
-      builder: (context) =>
-          AlertDialog(
-            content: Text('Proceed with payment'),
-          )
-  );
-}
-class _CartPageState extends State<CartPage>{
-  List<Item> cartItems=[];
-
-  @override
-  initState() {
-    fetchRecords();
-    super.initState();
+              // Delete data from Firestore
+              try {
+                await FirebaseFirestore.instance
+                    .collection('cart')
+                    .doc(item.pid) // Use item.id instead of item.pid
+                    .delete();
+                // Rebuild the UI
+                setState(() {});
+              } on FirebaseException catch (e) {
+                // Handle error
+                print('Error deleting product: $e');
+                showSnackBar(context, 'Error removing product.');
+              }
+            },
+            child: Text('Yes'),
+          ),
+        ],
+      ),
+    );
   }
 
-  fetchRecords() async{
-    var records = await FirebaseFirestore.instance.collection('products').get();
-    mapRecords(records);
-  }
-
-  mapRecords(QuerySnapshot<Map<String ,dynamic>> records){
-    var _list =records.docs.map((_item) =>
-        Item(
-            id: _item.id,
-            name: _item['name'],
-            price:_item['price'])
-    ).toList();
-    setState(() {
-      cartItems=_list;
-    });
+  void payButtonPressed(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text('Proceed with payment'),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final cart = context
-        .watch<Shop>()
-        .cart;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -95,41 +83,71 @@ class _CartPageState extends State<CartPage>{
         backgroundColor: secondaryColor,
         elevation: 0,
         foregroundColor: Colors.black,
-        title: Text('Cart ', style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Cart ',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           Expanded(
-            child: Center(
-              child: cart.isEmpty
-                  ? Text('Your cart is empty')
-                  : ListView.builder(
-                  itemCount: cart.length,
-                  itemBuilder:(context,index){
-                    final item= cart[index];
-                    return ListTile(
-                      title: Text(item.name),
-                      subtitle: Text(item.price),
-                      trailing: IconButton(icon: Icon(Icons.remove),
-                          onPressed: ()=> removeFromCart(context,item)),
-                    );
-                  }   //itemBuilder
-              ),
-            ),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('cart')
+                  .where('userEmail', isEqualTo: loggedInUser.email)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: secondaryColor,
+                    ),
+                  );
+                }
 
+                final cartItems = snapshot.data!.docs;
+                if (cartItems.isEmpty) {
+                  return Center(
+                    child: Text('Your cart is empty'),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                    final item = cartItems[index];
+                    return ListTile(
+                      title: Text(item['name'] ?? ''),
+                      subtitle: Text(item['price'] ?? ''),
+                      trailing: IconButton(
+                        icon: Icon(Icons.remove),
+                        onPressed: () => removeFromCart(
+                          context,
+                          Product(
+                            pid: item.id,
+                            name: item['name'] ?? '',
+                            price: item['price'] ?? '',
+                            description: item['description'] ?? '',
+                            imagePath: item['imagePath'] ?? '',
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(50.0),
-            child: MyButton(onTap:()=> payButtonPressed(context),
-                child: Text('Pay Now',style: TextStyle(color: Colors.white),)),
+            child: MyButton(
+              onTap: () => payButtonPressed(context),
+              child: Text('Pay Now', style: TextStyle(color: Colors.white)),
+            ),
           ),
-        ],),
-
-
-
+        ],
+      ),
     );
-  }}
+  }
+}
