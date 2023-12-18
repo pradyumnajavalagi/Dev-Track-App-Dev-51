@@ -6,16 +6,27 @@ import '../widgets/todo_item.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
-
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   final todosList = ToDo.todoList();
   List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
+
+  Future<QuerySnapshot>? tasksList;
+  String taskname ='';
+
+  initSearchTask(String textEntered)
+  {
+    tasksList=FirebaseFirestore.instance.collection('Task')
+        .where('title', isGreaterThanOrEqualTo: textEntered ).get();
+
+    setState(() {
+      tasksList;
+    });
+  }
 
   @override
   void initState() {
@@ -27,7 +38,6 @@ class _HomeState extends State<Home> {
     FirebaseFirestore.instance.collection('Task').add(
       {
         "title":_todoController.text,
-        "completed": false,
       }
     );
   }
@@ -146,21 +156,21 @@ class _HomeState extends State<Home> {
     _todoController.clear();
   }
 
-  void _runFilter(String enteredKeyword) {
-    List<ToDo> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = todosList;
-    } else {
-      results = todosList
-          .where((item) => item.todoText!
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-    setState(() {
-      _foundToDo = results;
-    });
-  }
+  // void _runFilter(String enteredKeyword) {
+  //   List<ToDo> results = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     results = todosList;
+  //   } else {
+  //     results = todosList
+  //         .where((item) => item.todoText!
+  //             .toLowerCase()
+  //             .contains(enteredKeyword.toLowerCase()))
+  //         .toList();
+  //   }
+  //   setState(() {
+  //     _foundToDo = results;
+  //   });
+  // }
 
   Widget searchBox() {
     return Container(
@@ -171,7 +181,12 @@ class _HomeState extends State<Home> {
       ),
       child: TextField(
         style: TextStyle(color: Colors.white),
-        onChanged: (value) => _runFilter(value),
+        onChanged: (textEntered){
+         setState(() {
+           taskname = textEntered;
+         });
+         initSearchTask(textEntered);
+        },
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
