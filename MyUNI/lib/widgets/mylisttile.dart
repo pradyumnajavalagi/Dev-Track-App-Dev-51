@@ -1,3 +1,4 @@
+import 'package:MyUni/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class MyListTile extends StatelessWidget {
@@ -14,9 +15,9 @@ class MyListTile extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           icon,
-          color: Colors.grey,
+          color: tddarkblue,
         ),
-        title: Text(text,),
+        title: Text(text,style: TextStyle(color: secondaryColor),),
         onTap:onTap,
       ),
     );

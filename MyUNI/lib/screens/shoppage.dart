@@ -1,4 +1,5 @@
 import 'package:MyUni/screens/cartpage.dart';
+import 'package:MyUni/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +13,12 @@ class ShopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final products = context.watch<Shop>().shop;
-    return Scaffold(appBar: AppBar(
-      title: Text("Buy Your Merch",style: TextStyle(color: Colors.white),),
-      backgroundColor:Color.fromRGBO(102, 107, 237, 1) ,
+    return Scaffold(
+
+      appBar: AppBar(
+      iconTheme: IconThemeData(color: secondaryColor),
+      title: Text("Buy Your Merch",style: TextStyle(color: secondaryColor,fontWeight: FontWeight.bold),),
+      backgroundColor: Colors.white ,
       elevation: 0,
       foregroundColor: Colors.white,
       actions: [
@@ -24,11 +28,11 @@ class ShopPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => CartPage(uid: FirebaseAuth.instance.currentUser!.uid,)),
           );
         },
-            icon: Icon(Icons.shopping_cart_outlined, color: Colors.white,)),
+            icon: Icon(Icons.shopping_cart_outlined, color: secondaryColor,)),
       ],
     ),
       drawer:const MyDrawer(),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: tdicon,
       body:ListView(
         children: [
           SizedBox(height: 25,),
@@ -37,7 +41,7 @@ class ShopPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.inversePrimary,
+                color: tddarkblue,
               ),
             ),
           ),

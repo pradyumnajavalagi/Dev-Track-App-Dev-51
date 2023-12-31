@@ -6,7 +6,8 @@ const mobileSearchColor = Color.fromRGBO(38, 38, 38, 1);
 const blueColor = Color.fromRGBO(0, 149, 246, 1);
 const primaryColor = Colors.white;
 const secondaryColor = Color.fromRGBO(102, 107, 237, 1);
-const Color tdRed = Color(0xFFF58B8B);
+
+const Color tdRed = Color(0xFFDA4040);
 const Color tdBlue = Color(0xFF5F52EE);
 
 const Color tdBlack = Color(0xFF3A3A3A);

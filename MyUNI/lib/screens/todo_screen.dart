@@ -1,11 +1,12 @@
-import 'package:MyUni/utils/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import '../models/todo.dart';
+import '../utils/colors.dart';
 import '../widgets/todo_item.dart';
 
 class TodoScreen extends StatefulWidget {
   TodoScreen({Key? key}) : super(key: key);
-
   @override
   State<TodoScreen> createState() => _TodoScreenState();
 }
@@ -15,40 +16,37 @@ class _TodoScreenState extends State<TodoScreen> {
   List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
 
+  Future<QuerySnapshot>? tasksList;
+  String taskname ='';
+
+  initSearchTask(String textEntered)
+  {
+    tasksList=FirebaseFirestore.instance.collection('Task')
+        .where('title', isGreaterThanOrEqualTo: textEntered ).get();
+
+    setState(() {
+      tasksList;
+    });
+  }
+
   @override
   void initState() {
     _foundToDo = todosList;
     super.initState();
   }
 
+  void _addTask(){
+    FirebaseFirestore.instance.collection('Task').add(
+        {
+          "title":_todoController.text,
+        }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tdlightblue,
-      appBar: AppBar(
-        leading: IconButton(
-          padding: EdgeInsets.only(left: 20),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: tdicon,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: tdlightblue,
-        elevation: 0,
-        title: Text(
-          'To Do',
-          style: TextStyle(
-            color: tdicon,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-      ),
+      appBar: _buildAppBar(),
       body: Stack(
         children: [
           Container(
@@ -59,32 +57,21 @@ class _TodoScreenState extends State<TodoScreen> {
             child: Column(
               children: [
                 searchBox(),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: 20,
-                          bottom: 20,
-                        ),
-                        child: Text(
-                          'TASKS',
-                          style: TextStyle(
-                            color: tdicon,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      for (ToDo todoo in _foundToDo.reversed)
-                        ToDoItem(
-                          todo: todoo,
-                          onToDoChanged: _handleToDoChange,
-                          onDeleteItem: _deleteToDoItem,
-                        ),
-                    ],
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 20,
+                    bottom: 20,
                   ),
-                )
+                  child: Text(
+                    'TASKS',
+                    style: TextStyle(
+                      color: tdicon,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Expanded(child: ToDoItem(todo:  ToDo(id: '01', todoText: 'Morning Excercise', isDone: true )))
               ],
             ),
           ),
@@ -95,7 +82,7 @@ class _TodoScreenState extends State<TodoScreen> {
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: 20,
-                    right: 15,
+                    right: 7,
                     left: 20,
                   ),
                   padding: EdgeInsets.symmetric(
@@ -104,6 +91,14 @@ class _TodoScreenState extends State<TodoScreen> {
                   ),
                   decoration: BoxDecoration(
                     color: tddarkblue,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: tdpink,
+                        offset: Offset(0.0, 0.0),
+                        blurRadius: 6.0,
+                        spreadRadius: 0.0,
+                      ),
+                    ],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextField(
@@ -117,21 +112,22 @@ class _TodoScreenState extends State<TodoScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 20, right: 20),
+                padding: const EdgeInsets.only(bottom: 20, right: 10),
                 child: Container(
-                  height: 50,
+                  height: 56,
                   child: ElevatedButton(
-                      child: Icon(
-                        Icons.add,
-                        color: tddarkblue,
-                        size: 30,
-                      ),
+                    child: Icon(
+                      Icons.add,
+                      color: tdicon,
+                      size: 33,
+                    ),
                     onPressed: () {
+                      _addTask();
                       _addToDoItem(_todoController.text);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
-                      backgroundColor: Colors.white,
+                      backgroundColor: tdpink,
                       elevation: 10,
                     ),
                   ),
@@ -144,17 +140,12 @@ class _TodoScreenState extends State<TodoScreen> {
     );
   }
 
-  void _handleToDoChange(ToDo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
-  }
+  // void _handleToDoChange(ToDoItem todo) {
+  //   setState(() {
+  //     todo.isDone = !todo.isDone;
+  //   });
+  // }
 
-  void _deleteToDoItem(String id) {
-    setState(() {
-      todosList.removeWhere((item) => item.id == id);
-    });
-  }
 
   void _addToDoItem(String toDo) {
     setState(() {
@@ -166,22 +157,21 @@ class _TodoScreenState extends State<TodoScreen> {
     _todoController.clear();
   }
 
-  void _runFilter(String enteredKeyword) {
-    List<ToDo> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = todosList;
-    } else {
-      results = todosList
-          .where((item) => item.todoText!
-          .toLowerCase()
-          .contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-
-    setState(() {
-      _foundToDo = results;
-    });
-  }
+  // void _runFilter(String enteredKeyword) {
+  //   List<ToDo> results = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     results = todosList;
+  //   } else {
+  //     results = todosList
+  //         .where((item) => item.todoText!
+  //             .toLowerCase()
+  //             .contains(enteredKeyword.toLowerCase()))
+  //         .toList();
+  //   }
+  //   setState(() {
+  //     _foundToDo = results;
+  //   });
+  // }
 
   Widget searchBox() {
     return Container(
@@ -191,7 +181,13 @@ class _TodoScreenState extends State<TodoScreen> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
-        onChanged: (value) => _runFilter(value),
+        style: TextStyle(color: Colors.white),
+        onChanged: (textEntered){
+          setState(() {
+            taskname = textEntered;
+          });
+          initSearchTask(textEntered);
+        },
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
@@ -221,25 +217,6 @@ class _TodoScreenState extends State<TodoScreen> {
           color: tdicon,
           size: 30,
         ),
-
-
-        // Icon(
-        //   Icons.search,
-        //   color: tdicon,
-        //   size: 30,
-        // ),
-
-
-        // Container(
-        //   height: 40,
-        //   width: 40,
-        //   child: ClipRRect(
-        //     borderRadius: BorderRadius.circular(20),
-        //     child: Image.asset('assets/images/avatar.jpeg'),
-        //   ),
-        // ),
-
-
       ]),
     );
   }

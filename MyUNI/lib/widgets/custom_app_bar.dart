@@ -12,7 +12,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:MyUni/utils/colors.dart';
 import '../screens/login_screen.dart';
+import '../screens/place_page.dart';
 import '../utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// late final Uri url;
+// final Uri _url = Uri.parse('https://revahack.com/');
+Future<void> _launchUrl(Uri uri) async {
+  if (!await launchUrl(uri)) {
+    throw Exception('Could not launch $uri');
+  }
+  // await launch(uri.toString());
+}
 
 
 AppBar navBar(BuildContext context) {
@@ -139,12 +150,22 @@ class _NavBarState extends State<NavBar> {
               leading: Icon(Icons.announcement_rounded,
                 color: tddarkblue,
               ),
-              title: Text('Announcements'),
+              title: Text('Events'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Announcements()),
-                );
+                _launchUrl(Uri.parse('https://www.reva.edu.in/events'));
+                // Navigator.pop(context); // Close the drawer
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: ListTile(
+              leading: Icon(Icons.book,
+                color: tddarkblue,
+              ),
+              title: Text('SLCM🎓'),
+              onTap: () {
+                _launchUrl(Uri.parse('https://reva-university.my.site.com/StudentPortal/s/login/'));
                 // Navigator.pop(context); // Close the drawer
               },
             ),
@@ -185,11 +206,11 @@ class _NavBarState extends State<NavBar> {
               leading: Icon(Icons.location_on_rounded,
                 color: tddarkblue,
               ),
-              title: Text('MyMaps'),
+              title: Text('MyPlaces'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MapPage()),
+                  MaterialPageRoute(builder: (context) => const MyPlace()),
                 );
                 // Navigator.pop(context); // Close the drawer
               },

@@ -249,7 +249,7 @@ bool _isObscure = true;
                         ),
                         TextField(
                           controller: _passwordController,
-                          obscureText: true,
+                          obscureText: _isObscure,
                           decoration: InputDecoration(
                             fillColor: Colors.grey,
                             hintText: 'Password@123',

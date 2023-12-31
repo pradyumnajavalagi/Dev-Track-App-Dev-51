@@ -1,4 +1,6 @@
+import 'package:MyUni/responsive/mobile_screen_layout.dart';
 import 'package:MyUni/screens/intropage.dart';
+import 'package:MyUni/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,23 +14,30 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.background,
+
+      backgroundColor: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
-              DrawerHeader(child: Center(
+              DrawerHeader(
+                decoration: const BoxDecoration(
+                  color: secondaryColor,
+                ),
+                child: Center(
                 child: Icon(
                   Icons.shopping_bag,
+
                   size: 50,
-                  color: Theme.of(context).colorScheme.inversePrimary,
+                  color: Colors.white,
                 ),
               ),
               ),
               SizedBox(height: 25),
 
               MyListTile(text: "Shop",
+
                 icon: Icons.home,
                 onTap: ()=> Navigator.pop(context),
               ),
@@ -52,7 +61,7 @@ class MyDrawer extends StatelessWidget {
               onTap: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FeedScreen()),
+                  MaterialPageRoute(builder: (context) => const MobileScreenLayout()),
                 );
               },
             ),

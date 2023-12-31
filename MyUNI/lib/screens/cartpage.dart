@@ -85,7 +85,7 @@ class _CartPageState extends State<CartPage> {
         foregroundColor: Colors.black,
         title: Text(
           'Cart ',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
