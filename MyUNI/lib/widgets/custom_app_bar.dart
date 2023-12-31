@@ -1,10 +1,10 @@
-import 'package:MyUni/screens/announcements.dart';
+// import 'package:MyUni/screens/announcements.dart';
 import 'package:MyUni/screens/chat_screen.dart';
 import 'package:MyUni/screens/clubs_page.dart';
 import 'package:MyUni/screens/feed_screen.dart';
 import 'package:MyUni/screens/feedback.dart';
 import 'package:MyUni/screens/intropage.dart';
-import 'package:MyUni/screens/map_page.dart';
+// import 'package:MyUni/screens/map_page.dart';
 import 'package:MyUni/screens/mentoring.dart';
 import 'package:MyUni/screens/todo_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

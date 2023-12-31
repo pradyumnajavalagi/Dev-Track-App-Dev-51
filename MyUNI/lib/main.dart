@@ -1,3 +1,4 @@
+import 'package:MyUni/screens/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -55,9 +56,9 @@ class MyApp extends StatelessWidget {
               // Checking if the snapshot has any data or not
               if (snapshot.hasData) {
                 // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
-                return const ResponsiveLayout(
-                  mobileScreenLayout: MobileScreenLayout(),
-                  webScreenLayout: WebScreenLayout(),
+                return  ResponsiveLayout(
+                  mobileScreenLayout: SplashScreen(),
+                  webScreenLayout: const WebScreenLayout(),
                 );
               } else if (snapshot.hasError) {
                 return Center(
@@ -73,9 +74,50 @@ class MyApp extends StatelessWidget {
               );
             }
 
-            return const LoginScreen();
+            return SplashScreen2();
           },
         ),
+      ),
+    );
+  }
+}
+class SplashScreen2 extends StatefulWidget {
+  @override
+  _SplashScreen2State createState() => _SplashScreen2State();
+}
+
+class _SplashScreen2State extends State<SplashScreen2> {
+  @override
+  void initState() {
+    super.initState();
+    // Simulate a 1-second delay, then navigate to the main screen
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Image.asset('assets/logo.png')
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home Screen'),
+      ),
+      body: Center(
+        child: Text('Welcome to the Home Screen!'),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:MyUni/utils/colors.dart';
 import 'package:MyUni/utils/global_variable.dart';
 import 'package:MyUni/widgets/custom_app_bar.dart';

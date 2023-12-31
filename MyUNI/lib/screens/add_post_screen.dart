@@ -141,7 +141,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 )
-              ),
+                      ),
               centerTitle: false,
               actions: <Widget>[
                 Padding(
